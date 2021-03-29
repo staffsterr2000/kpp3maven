@@ -41,6 +41,7 @@ public class WordHelper {
     public List<String> readWordsFromFile() {
         return document.getParagraphs().stream()
                 .map(XWPFParagraph::getParagraphText)
+                .map(string -> string.replaceAll("\\p{Punct}", ""))
                 .flatMap(string -> Arrays.stream(string.split(" ")))
                 .collect(Collectors.toList());
     }
@@ -49,12 +50,15 @@ public class WordHelper {
         StringBuilder builder = new StringBuilder("Результат: ");
 
         for (String word : collection) {
-            builder.append(word).append(" ");
+            builder.append(word).append(", ");
         }
 
         XWPFParagraph p = document.createParagraph();
         XWPFRun pRun = p.createRun();
+        pRun.addBreak();
         pRun.setText(builder.toString());
+        pRun.setFontFamily("Times New Roman");
+        pRun.setFontSize(12);
     }
 
     public void saveDocument() throws IOException {

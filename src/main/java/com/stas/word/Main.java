@@ -8,10 +8,11 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Application {
+public class Main {
 
     public static Map<String, Integer> getWordsAndTheirCountMap(Collection<String> words) {
         Map<String, Integer> wordAndItAppearingCountMap = new LinkedHashMap<>();
+        trimCollection(words);
 
         for (String word : words) {
             Integer value = wordAndItAppearingCountMap.get(word);
@@ -22,6 +23,10 @@ public class Application {
         }
 
         return wordAndItAppearingCountMap;
+    }
+
+    public static void trimCollection(Collection<String> collection) {
+        collection.removeIf(value -> value == null || value.isEmpty());
     }
 
     public static List<String> getWordsThatAppearsOnce(Map<String, Integer> wordAndItAppearingCountMap) {
