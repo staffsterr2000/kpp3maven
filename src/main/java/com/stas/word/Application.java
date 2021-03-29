@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Application {
 
     public static Map<String, Integer> getWordsAndTheirCountMap(Collection<String> words) {
-        Map<String, Integer> wordAndItAppearingCountMap = new TreeMap<>();
+        Map<String, Integer> wordAndItAppearingCountMap = new LinkedHashMap<>();
 
         for (String word : words) {
             Integer value = wordAndItAppearingCountMap.get(word);
