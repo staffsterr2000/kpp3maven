@@ -11,7 +11,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,23 +39,25 @@ public class WordHelper {
 
     public List<String> readWordsFromFile() {
         return document.getParagraphs().stream()
+                // get each paragraph
                 .map(XWPFParagraph::getParagraphText)
-                .map(string -> string.replaceAll("\\p{Punct}", ""))
+                // delete all breaks
+                .map(string -> string.replaceAll("\n", " "))
+                // split a sentence for the 'words'
                 .flatMap(string -> Arrays.stream(string.split(" ")))
+                // make all words lower case stated
+                .map(String::toLowerCase)
+                // delete all punctuation symbols except '
+                .map(string -> string.replaceAll("[\\p{Punct}&&[^']]", " "))
+                // collect to a list
                 .collect(Collectors.toList());
     }
 
-    public void addResultToFile(Collection<String> collection) {
-        StringBuilder builder = new StringBuilder("Результат: ");
-
-        for (String word : collection) {
-            builder.append(word).append(", ");
-        }
-
+    public void addResultToFile(String result) {
         XWPFParagraph p = document.createParagraph();
         XWPFRun pRun = p.createRun();
         pRun.addBreak();
-        pRun.setText(builder.toString());
+        pRun.setText(result);
         pRun.setFontFamily("Times New Roman");
         pRun.setFontSize(12);
     }

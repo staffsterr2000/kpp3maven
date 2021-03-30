@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Main {
+public class Application {
 
     public static Map<String, Integer> getWordsAndTheirCountMap(Collection<String> words) {
         Map<String, Integer> wordAndItAppearingCountMap = new LinkedHashMap<>();
@@ -36,6 +36,16 @@ public class Main {
                 .collect(Collectors.toList());
     }
 
+    public static String formulateResult(Collection<String> collection) {
+        StringBuilder builder = new StringBuilder("Результат: ");
+
+        for (String word : collection) {
+            builder.append(word).append(", ");
+        }
+
+        return builder.toString();
+    }
+
     public static void main(String[] args) {
 
         try (BufferedReader console = new BufferedReader(new InputStreamReader(System.in))) {
@@ -46,7 +56,8 @@ public class Main {
             List<String> words = helper.readWordsFromFile();
             Map<String, Integer> map = getWordsAndTheirCountMap(words);
             List<String> list = getWordsThatAppearsOnce(map);
-            helper.addResultToFile(list);
+            String result = formulateResult(list);
+            helper.addResultToFile(result);
             helper.saveDocument();
 
         } catch (IOException e) {
