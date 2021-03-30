@@ -37,13 +37,16 @@ public class Application {
     }
 
     public static String formulateResult(Collection<String> collection) {
-        StringBuilder builder = new StringBuilder("Результат: ");
+        StringBuilder builder = new StringBuilder("Result: ");
 
         for (String word : collection) {
             builder.append(word).append(", ");
         }
 
-        return builder.toString();
+        String result = builder.toString();
+        System.out.println(result);
+
+        return result;
     }
 
     public static void main(String[] args) {
